@@ -1,0 +1,81 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+/*    width: 100%;*/
+/*    height: 1000px;*/
+    background-image: url(img/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.your{
+    background-color: rgba(43, 64, 226, 0.38);
+/*    width: 500px;*/
+    height: 150px;
+    margin: auto;
+    text-align: center;
+}
+
+.my{
+    background-color: rgba(34, 139, 34, 0.38);
+/*    width: 500px;*/
+    height: 150px;
+    margin: auto;
+    text-align: center;
+}
+
+.buttonBlock{
+    margin: auto;
+    width: auto;
+    text-align: center;
+}
+.cartBack {
+    text-align: center;
+    height: 225px;
+    width: 300px;
+    background-image: url(img/back.png);
+    background-size: 100% 100%;
+    background-position: center;
+    margin: auto;
+}
+
+.carta {
+    display: inline-block;
+    height: 150px;
+}
+
+.carta img{
+    height: 150px;
+}
+.button {
+    width: 100px;
+    height: 30px;
+}
+
+.rezult {
+    padding: 5px;
+    text-align: center;
+    font-size: 25px;
+/*    margin: 30px;*/
+    line-height: 25px;
+/*    z-index: 2;*/
+    background-color: rgba(60, 60, 60, 0.63);
+    margin: auto;
+    width: 200px;
+    border-radius: 3px;
+    display: none;
+}
+
+#myValue {
+    color: forestgreen;
+}
+
+#yourValue {
+    color: #d80e0e;
+}
+
+#message {
+    text-align: center;
+}

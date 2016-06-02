@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test JS</title>
+    <script src="jquery-1.12.4.js" type="text/javascript"></script>
+    <script>
+        $(function(){
+            $("#click1").click(function(){
+                test();
+            });
+            
+            $("#click2").click(function(){
+                test("Click 2");
+            });
+            
+            $("#click3").click(function(){
+                $("#delElement").remove();
+            });
+            
+            function test(text = "bilibirda"){
+                alert(text);
+            }
+            
+        });
+        
+        
+    </script>
+    <style>
+        #delElement{
+            width: 100px;
+            height: 100px;
+            background-color: forestgreen;
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="delElement"></div>
+    
+    <input type="button" value="Click 1!" id="click1">
+    <input type="button" value="Click 2!" id="click2">
+    <input type="button" value="Delete div" id="click3">
+    
+</body>
+</html>
