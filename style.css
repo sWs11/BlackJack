@@ -3,16 +3,29 @@
     padding: 0;
 }
 body{
-/*    width: 100%;*/
+/*    width: 1200px;*/
 /*    height: 1000px;*/
     background-image: url(img/background.jpg);
     background-size: cover;
     background-repeat: no-repeat;
+/*
+    display: table-cell;
+    vertical-align: middle;
+*/
+    min-width: 830px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
+
+.wrap{
+    width: 100%;
+}
+
 
 .your{
     background-color: rgba(43, 64, 226, 0.38);
-/*    width: 500px;*/
     height: 150px;
     margin: auto;
     text-align: center;
@@ -33,8 +46,8 @@ body{
 }
 .cartBack {
     text-align: center;
-    height: 225px;
-    width: 300px;
+    height: 275px;
+    width: 365px;
     background-image: url(img/back.png);
     background-size: 100% 100%;
     background-position: center;
@@ -65,7 +78,7 @@ body{
     margin: auto;
     width: 200px;
     border-radius: 3px;
-    display: none;
+/*    display: none;*/
 }
 
 #myValue {
@@ -78,4 +91,61 @@ body{
 
 #message {
     text-align: center;
+    height: 27px;
+    
+}
+
+.money {
+    height: 30px;
+    line-height: 30px;
+    font-size: 30px;
+}
+
+.money_and_rate {
+    font-weight: 600;
+    font-style: italic;
+    height: 60px;
+    background-color: rgba(28, 172, 16, 0.55);
+    border-radius: 10px;
+}
+
+.rate {
+    height: 30px;
+    line-height: 30px;
+    font-size: 30px;
+}
+
+.selestRate {
+    width: calc(50% - 183px);
+    height: 275px;
+    display: block;
+    float: right;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 92px;
+}
+
+.buttonRate {
+    width: 75px;
+    height: 75px;
+    border-radius: 75px;
+    font-size: 15px;
+    font-style: italic;
+    border: 6px outset forestgreen;
+    background-color: #00182c;
+    font-weight: 900;
+    color: white;
+}
+
+.buttonRate[disabled=disabled]{
+    background-color: dimgray;
+    color: darkgray;
+}
+
+.buttonRate:active{
+    border: 6px inset forestgreen;
+}
+
+.clearRate{
+    font-size: 15px;
 }

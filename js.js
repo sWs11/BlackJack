@@ -1,4 +1,13 @@
 $(function(){
+    
+    windRes();
+    $(window).resize(windRes);
+    
+    function windRes(){
+        $("body").height($(window).height());
+        $("body").width($(window).width());
+    }
+    
     var carts = new Array();
     
     function ConcstrKart(name, value, image){
@@ -29,11 +38,62 @@ $(function(){
     var deal = false;
     var stant  = false;
     
+    var money = 1000;
+    var rate = 1;
+    var freeMoney;
+    
     var myValue = 0;
     var yourValue = 0;
     var myMass = new Array();
     var youMass = new Array();
     var usedKarts = new Array();
+    
+    myMoney();
+    
+    function myMoney(){
+        if(rate > money){
+            rate = money;
+        }
+        freeMoney = money - rate;
+        $("#money").text(freeMoney);
+        $("#rate").text(rate);
+        
+    }
+    
+    $(".buttonRate").click(clickButtonRate);
+    
+    function clickButtonRate(obj){
+        
+        var attrRate = $(this);
+        var valueRate = attrRate.attr("value");
+//        alert(valueRate);
+        if(valueRate == "Clear"){
+            $("#message").html(" ");
+            rate = 1;
+            myMoney();
+        }else if(valueRate == "Double"){
+            $("#message").html(" ");
+            
+            if((rate*2) > money){
+                $("#message").html("<span style='color: red'>Не вистачає грошей на таку ставку! <span>");
+            }else{
+                rate = rate*2;
+                myMoney();
+//                $(this).attr("disabled", "disabled");
+                clickHit();
+            }
+        }else if(!deal){
+            valueRate = Number(valueRate);
+            
+            $("#message").html(" ");
+            rate = rate + valueRate;
+            myMoney();
+            
+        }else{
+            $("#message").html("<span style='color: red'>На протязі гри не дозволено змінювати ставку!<span>");
+        }
+
+    }
     
     $("#Deal").click(clickDeal);
     $("#Hit").click(clickHit);
@@ -41,21 +101,28 @@ $(function(){
     
     function clickDeal(){
         if(!deal){
-            usedKarts = [];
-            $(".my").html("");
-            $(".your").html("");
-            $("#message").html("");
-            
-            myMass = [];
-            youMass = [];
-            
-            deal = true;
-            stant = false;
-            
-            my();
-            your();
-            my();
-            $(".your").append("<div class='carta' id='delBack'><img src='img/back1.png'alt='back'></div>"); 
+            if(money !== 0){
+                usedKarts = [];
+                $(".my").html("");
+                $(".your").html("");
+                $("#message").html(" ");
+
+                $("input#double").removeAttr("disabled");
+                $("input#clearRate").attr("disabled", "disabled");
+
+                myMass = [];
+                youMass = [];
+
+                deal = true;
+                stant = false;
+
+                my();
+                your();
+                my();
+                $(".your").append("<div class='carta' id='delBack'><img src='img/back1.png'alt='back'></div>");
+            }else{
+                $("#message").html("<span style='color: red'>Ви вже програли всі гроші!<span>");
+            } 
         }else{
             $("#message").html("<span style='color: red'>Завершіть розпочату гру!<span>");
         } 
@@ -63,7 +130,7 @@ $(function(){
     
     function clickHit(){
         if(deal && !stant){
-            $("#message").html("");
+            $("#message").html(" ");
             my();
         }else{
             $("#message").html("<span style='color: red'>Розпочніть нову гру!<span>");
@@ -73,14 +140,13 @@ $(function(){
     
     function clickStand(){
         if(!stant){
-            $("#message").html("");
+            $("#message").html(" ");
             deal = false;
             stant = true;
             yourMove();
         }else{
             $("#message").html("<span style='color: red'>Розпочніть нову гру!<span>");
         }
-        
     }
     
     function r(){
@@ -117,6 +183,7 @@ $(function(){
         if(myValue > 21){
             deal = false;
             stant = true;
+            loss();
             $("#message").html("<span style='color: red'>Перебор! " + myValue + " You LOSS! <span>");
         }
     }
@@ -136,32 +203,16 @@ $(function(){
         
         do{
             your();
-            var c = 21 - yourValue; // в цю змінну записується скільки ще не вистачає до 21
+        }while((yourValue <= myValue) && (yourValue < 21));
 
-            var d = 0;  // в цю змінну буде записуватись скільки карт(не враховуючи масть), в яких value < var c
-            for(var i = 0; i < array_karti.length; i++){    // цикл підрахунку карт для var d
-                if(array_karti[i].value <= c){
-                    d++;                        
-                }
-            }
-
-            var e = d/array_karti.length;   // вираховуємо яка ймовірнісь того що наступна випавша карта буде мати  
-                                            // value <= var c (кількості очків, яких не вистачає до 21)
-            var f = Math.random();          // генеруємо випадкове число від 0 до 1
-
-            console.log("ймовірність е = " + e + " Випадкове число f = " + f);
-
-        }while(e > f);
-        
-        /*while((yourValue < 19) && !(yourValue > 21)){
-            your();
-        }*/
         if(yourValue > 21){
             deal = false;
             stant = true;
+            win();
             $("#message").html("<span style='color: green'>В противника перебор! " + myValue + " You WIN! <span>");
             return;
         }else{
+            
             if(yourValue < myValue){
                 win();
             }else if(yourValue > myValue){
@@ -195,15 +246,30 @@ $(function(){
     }
     
     function win(){
+        money = money + rate;
+        myMoney();
         $("#message").html("<span style='color: green'>Ти виграв: Ти: " + myValue + " Він: " + yourValue  + "<span>");
+        
+        $("input#clearRate").removeAttr("disabled");
+        $("input#double").attr("disabled", "disabled");
     }
     
     function loss(){
+        money = money - rate;
+        myMoney();
         $("#message").html("<span style='color: red'>Ти програв: Ти: " + myValue + " Він: " + yourValue  + "<span>");
+        
+        $("input#clearRate").removeAttr("disabled");
+        $("input#double").attr("disabled", "disabled");
     }
     
     function noWinNoLoss(){
+        money = money;
+        myMoney();
         $("#message").html("<span style='color: red'>Нічія... Ти: " + myValue + " Він: " + yourValue  + "<span>");
+        
+        $("input#clearRate").removeAttr("disabled");
+        $("input#double").attr("disabled", "disabled");
     }
     
 });
